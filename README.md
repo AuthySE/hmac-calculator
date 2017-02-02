@@ -3,7 +3,9 @@
 This code snipping will calculate an HMAC signature for you.  Use it to troubleshoot other HMAC calculations.
 
 ##### Steps
+
 Use Ngrok (localhost:4040) to:
+
 1. Grab the JSON object from the **Summary** tab.
 1. From the **Headers** tab
     1. Grab the X-Authy-Signature
