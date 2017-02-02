@@ -3,28 +3,26 @@ var crypto = require('crypto');
 
 /**
  * Verify HMAC
- * @param proto
- * @param hostname
- * @param url
- * @param method
- * @param params
- * @param nonce
- * @param apikey
- * @param hmacsig
+ * @param proto     http or https
+ * @param hostname  domain name with an appended /
+ * @param path      file path
+ * @param method    POST or GET
+ * @param params    JSON object of all of the POST params
+ * @param nonce     Number Once
+ * @param apikey    API Key
+ * @param hmacsig   The X-Authy-HMAC-Signature
  * @returns {boolean}
  */
-function verifyHMAC(proto, hostname, url, method, params, nonce, apikey, hmacsig) {
+function verifyHMAC(proto, hostname, path, method, params, nonce, apikey, hmacsig) {
 
-    var url = proto + hostname + url;
-
-    // Sort the params.
+    var url = proto + hostname + path;
     var sorted_params = qs.stringify(params).split("&").sort().join("&").replace(/%20/g, '+');
 
     var data = nonce + "|" + method + "|" + url + "|" + sorted_params;
-
     var computed_sig = crypto.createHmac('sha256', apikey).update(data).digest('base64');
-    console.log('computed: ', computed_sig);
-    console.log('hmac:     ', hmacsig);
+
+    // console.log('computed: ', computed_sig);
+    // console.log('hmac:     ', hmacsig);
 
     return hmacsig == computed_sig;
 }
@@ -70,12 +68,12 @@ var params = {
 
 var req_proto = 'https://';  // this could also be http
 var req_hostname = 'authyse.ngrok.io/';
-var req_url = 'authy/callback';
+var req_path = 'authy/callback';
 var req_apiKey = "";
 var req_method = 'POST'; // or 'GET'
 var req_nonce = '1486071562';
 var req_hmac_sig = 'ba+scT3viU7zknpdQJzjgwhhaP6+WtUBLpeVFJxBBZs=';
-var matching = verifyHMAC(req_proto, req_hostname, req_url, req_method, params, req_nonce, req_apiKey, req_hmac_sig);
+var matching = verifyHMAC(req_proto, req_hostname, req_path, req_method, params, req_nonce, req_apiKey, req_hmac_sig);
 
 if(matching){
     console.log("Sigs match");
