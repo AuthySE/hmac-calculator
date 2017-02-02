@@ -16,14 +16,14 @@ var crypto = require('crypto');
 function verifyHMAC(proto, hostname, path, method, params, nonce, apikey, hmacsig) {
 
     var url = proto + hostname + path;
+    console.log('url\n', url);
     var sorted_params = qs.stringify(params).split("&").sort().join("&").replace(/%20/g, '+');
-
+    console.log('sorted params\n', sorted_params);
     var data = nonce + "|" + method + "|" + url + "|" + sorted_params;
+    console.log('data url\n', data);
     var computed_sig = crypto.createHmac('sha256', apikey).update(data).digest('base64');
-
-    // console.log('computed: ', computed_sig);
-    // console.log('hmac:     ', hmacsig);
-
+    console.log('computed sig\n', computed_sig);
+    console.log('hmac sig\n', hmacsig);
     return hmacsig == computed_sig;
 }
 
