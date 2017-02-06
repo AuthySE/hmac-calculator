@@ -16,9 +16,11 @@ Use Ngrok (localhost:4040) to:
 
 #### OneTouch Headers
 Get the JSON object from here.
+
 ![Authy](https://raw.githubusercontent.com/AuthySE/hmac-calculator/master/onetouch-headers.png)
 
 #### OneTouch Summary
 Get the nonce and signature from here.
+
 ![Authy](https://raw.githubusercontent.com/AuthySE/hmac-calculator/master/onetouch-summary.png)
 
