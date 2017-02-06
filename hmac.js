@@ -27,56 +27,34 @@ function verifyHMAC(proto, hostname, path, method, params, nonce, apikey, hmacsi
     return hmacsig == computed_sig;
 }
 
-////////////////////////////
-//  You'll want to modify the following based upon the ngrok info you see at localhost:4040
-////////////////////////////
+////////////////////////////////////////////////////////
+//  You'll want to modify the following based upon the
+//   ngrok info you see at localhost:4040
+////////////////////////////////////////////////////////
+
 
 /**
- * This should be the payload of the JSON request
+ * This should be the payload of the JSON request when inspecting the
+ * request at localhost:4040 with ngrok.io
  */
-var params = {
-    "authy_id": 23355396,
-    "device_uuid": 29319688,
-    "callback_action": "approval_request_status",
-    "uuid": "f86232d0-cbbd-0134-bd1c-1241e5695bb0",
-    "status": "approved",
-    "approval_request": {
-        "transaction": {
-            "details": {
-                "email": "josh@twilio.com"
-            },
-            "device_details": null,
-            "device_geolocation": null,
-            "device_signing_time": 1486071562,
-            "encrypted": false,
-            "flagged": false,
-            "hidden_details": null,
-            "message": "Request login to Twilio demo app",
-            "reason": "",
-            "requester_details": null,
-            "status": "approved",
-            "uuid": "f86232d0-cbbd-0134-bd1c-1241e5695bb0",
-            "created_at_time": 1486071556,
-            "customer_uuid": 44829
-        },
-        "expiration_timestamp": 1486157956,
-        "logos": null,
-        "app_id": "5841ae5d7c59f34dcb24cb7b"
-    },
-    "signature": "WiVF1jFHW4F788Cs8X+F3LIJogRqHvHHNIfajst/qnPv/39ZkONWG0mm8v82u2ZSzVSlgkKFXcfHLxY5gn+wUDoOvc24/2MG4mZKu8BPY9cmhuWQTRgGuUf40WNsO26FxdNFzrUU1J3aylhPcbPXbB5kPSIW9ZPitVHNDwY1p3jYUAO9ae3azFBVQJqhCqDnP407TJra4Qzwsn7zQafWqsY3/RHYzqoRrRyn4+q/RBfdCRRL0npLgfJ7GqkiC8sWUPlFAdbriZyRaCy3IZwCe/XRwj+7RIErQ8JP7DToPrG2lu0/7EuLzBEaw5k+7pfCoJ+MW0iLLCKf0Yk4l1qKWg=="
-};
+var JSON;                                   // JSON object of all of the request params
 
-var req_proto = 'https://';  // this could also be http
-var req_hostname = 'authyse.ngrok.io/';
-var req_path = 'authy/callback';
-var req_apiKey = "";
-var req_method = 'POST'; // or 'GET'
-var req_nonce = '1486071562';
-var req_hmac_sig = 'ba+scT3viU7zknpdQJzjgwhhaP6+WtUBLpeVFJxBBZs=';
-var matching = verifyHMAC(req_proto, req_hostname, req_path, req_method, params, req_nonce, req_apiKey, req_hmac_sig);
+var req_proto = 'https://';                 // or 'http://'
+var req_hostname = 'yourdomain.ngrok.io';   // Your ngrok.io domain if using ngrok
+var req_path = 'authy/callback';            // The path to your callback
+var req_apiKey = '';                        // Your Authy API Key
+var req_method = '';                        // or 'GET'
+var req_nonce = '';                         // The nonce (number once) will be found in the headers of the ngrok callback
+var req_hmac_sig = '';                      // Also found in the request headers
 
-if(matching){
-    console.log("Sigs match");
+if(req_hostname !== "yourdomain.ngrk.io" && req_apiKey && req_method && req_nonce && req_hmac_sig && JSON){
+    var matching = verifyHMAC(req_proto, req_hostname, req_path, req_method, json, req_nonce, req_apiKey, req_hmac_sig);
+    if(matching){
+        console.log("Signatures match");
+    } else {
+        console.log("Signatures dont match.  Did you use the correct protocol, hostname and path?");
+    }
 } else {
-    console.log("Sigs dont match");
+    console.log("Please update all request parameters.");
 }
+

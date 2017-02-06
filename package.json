@@ -1,11 +1,29 @@
 {
   "name": "hmac",
   "version": "1.0.0",
-  "description": "",
+  "description": "Code snippet to help authenticate if an HMAC signature is correct.",
   "main": "hmac.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies": {
+    "crypto": "0.0.3",
+    "qs": "^6.3.0"
   },
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {},
+  "scripts": {
+    "test": "node hmac.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AuthySE/hmac-calculator.git"
+  },
+  "keywords": [
+    "HMAC",
+    "Authy",
+    "Signature"
+  ],
+  "author": "Josh Authy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AuthySE/hmac-calculator/issues"
+  },
+  "homepage": "https://github.com/AuthySE/hmac-calculator#readme"
 }
